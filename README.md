@@ -1,216 +1,141 @@
-# Retail Sales Analysis SQL Project
+# IP Address Tracker
 
-## Project Overview
+## Welcome! 👋
 
-**Project Title**: Retail Sales Analysis  
-**Level**: Beginner  
-**Database**: `project1`
-This project is designed to demonstrate SQL skills and techniques typically used by data analysts to explore, clean, and analyze retail sales data. The project involves setting up a retail sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. This project is ideal for those who are starting their journey in data analysis and want to build a solid foundation in SQL.
+## Table of contents
 
-## Objectives
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [How to setup the project](#how-to-setup-the-project)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
-1. **Set up a retail sales database**: Create and populate a retail sales database with the provided sales data.
-2. **Data Cleaning**: Identify and remove any records with missing or null values.
-3. **Exploratory Data Analysis (EDA)**: Perform basic exploratory data analysis to understand the dataset.
-4. **Business Analysis**: Use SQL to answer specific business questions and derive insights from the sales data.
+## Overview
 
-## Project Structure
+### The challenge
 
-### 1. Database Setup
+Discover the location, timezone, and ISP of any IP address with the IP Address Tracker! 
 
-- **Database Creation**: The project starts by creating a database named `project1`.
-- **Table Creation**: A table named `retail_sales` is created to store the sales data. The table structure includes columns for transaction ID, sale date, sale time, customer ID, gender, age, product category, quantity sold, price per unit, cost of goods sold (COGS), and total sale amount.
+This webpage allows users to
+- View the optimal layout for each page depending on their device's screen size.
+- See hover states for all interactive elements on the page.
+- Find their own IP address on the map on the initial page load. 
+Users can also search for any IP addresses or domains and see the key information and location.
 
-```sql
-CREATE DATABASE project1;
+### How to setup the project
 
---TABLE CREATION 
-create table retail_sales(
-transactions_id int primary key, 
-sale_date date,
-sale_time time,
-customer_id int,
-gender varchar(10),
-age int,
-category varchar(20),
-quantiy int,
-price_per_unit float,
-cogs float,
-total_sale float
-)
+To set up the project locally, follow these steps:
 
-select * from retail_sales;
+1. Clone the repository using GitHub Desktop or Git Bash:
+    ```bash
+    git clone https://github.com/SartHak-0-Sach/IP-address-tracker_frontend_project.git
+    ```
+2. Open the project folder in your code editor.
+3. Run the project using a live server extension or deploy it using Netlify, Vercel, or another web hosting and deployment service.
 
---FINDING NULL VALUES:-
-select * from retail_sales
-where transactions_id is null;
+### Screenshot
 
-select * from retail_sales
-where sale_date is null;
+![Design Preview](./design/active-states.jpg)
 
-select * from retail_sales
-where 
-transactions_id is null
-or 
-sale_date is null
-or
-sale_time is null
-or
-customer_id is null
-or
-gender is null
-or
-age is null
-or
-category is null
-or
-quantiy is null
-or 
-price_per_unit is null
-or 
-cogs is null
-or
-total_sale is null;
+### Links
 
---DATA CLEANING (DELETING NULL VALUES):-
-delete from retail_sales 
-where 
-transactions_id is null
-or 
-sale_date is null
-or
-sale_time is null
-or
-customer_id is null
-or
-gender is null
-or
-age is null
-or
-category is null
-or
-quantiy is null
-or 
-price_per_unit is null
-or 
-cogs is null
-or
-total_sale is null;
+- Solution URL: [GitHub Repository](https://github.com/SartHak-0-Sach/IP-address-tracker_frontend_project)
+- Live Site URL: [Live Site](https://ip-address-tracker-app-project.netlify.app/)
 
---DATA EXPLORATION :-
+## My process
 
-	-- How many sales we have?
-	select count(*) as total_sales from retail_sales;
+### Built with
 
-	-- How many customers we have?
-	select count(distinct customer_id) as total_customers from retail_sales;
+- HTML5
+- CSS3
+- JavaScript
+- Leaflet.js (for the map)
+- IP Geolocation API (for fetching IP address details)
 
-	--Which categories we have?
-	select distinct category from retail_sales;
+You will find all the required assets in the `/design` folder. The assets are already optimized.
 
---DATA ANALYSIS:-
+There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
 
-	--Retrieve all columns for sales made on '2022-11-05'
-	select * from retail_sales 
-	where sale_date = '2022-11-05';
+### What I learned
 
-	--Retrieve all transactions where the category is 'Clothing' and the quantity sold is more than or equal to 4 in the month of Nov-2022:
-	select * from retail_sales
-	where category = 'Clothing'
-	AND 
-	to_char(sale_date ,'yyyy-mm') = '2022-11'
-	AND 
-	quantiy >= 4;
+This project is great at understanding how to execute basic CSS features like flexbox, responsive layout using media queries for both desktop and mobile and all sizes in between as shown below-
 
-	--Calculate total sales for each category
-	select category , sum(total_sale) as net_sale
-	from retail_sales
-	group by category;
+```css
+@media (max-width: 920px) {
+    .info-field {
+        font-size: .9rem;
+    }
+}
 
-	--Find avg age of customers who purchaswed items from 'beauty' category
-	select avg(age)::int as avg_age 
-	from retail_sales
-	where category = 'Beauty';
+@media (max-width: 770px) {
+    #ip-input {
+        width: min(380px, 70%);
+    }
 
-	--Find all trsnsactions where total sale is more than 1000
-	select * from retail_sales 
-	where total_sale > 1000;
+    .info {
+        width: 85vw;
+    }
+}
 
-	--Finf total number of transactions(trans_id) made by each gender in each category
-	select category,gender,count(*) from retail_sales 
-	group by gender , category;
+@media (max-width: 600px) {
+    .top {
+        height: 35vh;
+        padding: .7rem;
+    }
 
-	--Calculate avg sale for each month and find the best selling month in each year
-	select
-	date_part('year',sale_date) as year,
-	date_part('month',sale_date) as month,
-	round(avg(total_sale)) as avg_sale,
-	rank() over(partition by date_part('year',sale_date)order by round(avg(total_sale)) desc ) as rank
-	from retail_sales
-	group by 1,2;
+    .title {
+        font-size: 1.5rem;
+    }
 
-	--Find top 5 customers based on highest total sales
-	select customer_id , SUM(total_sale) 
-	from retail_sales
-	group by 1
-	order by 2 desc 
-	limit 5;
+    .info {
+        width: 75vw;
+        flex-direction: column;
+        text-align: center;
+        gap: 1.1rem;
+        top: 12%;
+    }
 
-	--Find number of unique customers who purchased items for each category
-	select count(distinct customer_id),category 
-	from retail_sales
-	group by 2;
+    .box {
+        width: 100%;
+        border: none;
+    }
+}
+```
 
-	--Create each shift and no. of orders for them
-	with hourly_orders
-	as
-	(
-	select transactions_id, 
-	sale_time,
-	case 
-	when extract (hour from sale_time) < '12'
-	then 'morning' 
-	when extract (hour from sale_time) between '12' and '17'
-	then 'afternoon'
-	when extract (hour from sale_time) > '17'
-	then 'evening' 
-	end as shift
-	from retail_sales
-	)
-	select shift , 
-	count(*) order_hours
-	from hourly_orders 
-	group by shift;
-	
-	
+### Continued development
 
-## Findings
+The continuously learning journey of a programmer never ends. This project made me realize that there are many concepts that I need to work upon including fundamentals like flex-box and its properties, to more complex concepts like working with fetch and async await in javascript. These areas are some that I think I need to work more upon in the upcoming future as they highlight some of the most significant regions of web development that are important for every developer to know of. 
 
-- **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories such as Clothing and Beauty.
-- **High-Value Transactions**: Several transactions had a total sale amount greater than 1000, indicating premium purchases.
-- **Sales Trends**: Monthly analysis shows variations in sales, helping identify peak seasons.
-- **Customer Insights**: The analysis identifies the top-spending customers and the most popular product categories.
+These key points mentioned here will help me grow accountable and consistent towards improving at writing good quality code and be a successful full stack developer one day.
 
-## Reports
+### Useful resources
 
-- **Sales Summary**: A detailed report summarizing total sales, customer demographics, and category performance.
-- **Trend Analysis**: Insights into sales trends across different months and shifts.
-- **Customer Insights**: Reports on top customers and unique customer counts per category.
+- [Harkirat Singh course notes](https://github.com/SartHak-0-Sach/harkirat-singh-course_code_and_notes) - I have added notes of all lectures along with code and lecture insights of all weeks along with bonus lectures to help you all as much as I can.
+- [My development code and notes](https://github.com/SartHak-0-Sach/cwh-web-dev-playlist_code_and_notes) - These are my notes that I made while working on my development skills in initial days and did these courses. Make sure to star the repository if you like it.✨💫
+- [MDN documentation hover state for CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/:hover) - This is an amazing article which helped me finally understand hover states. I'd recommend it to anyone still learning this concept.
 
-## Conclusion
+## Author
 
-This project serves as a comprehensive introduction to SQL for data analysts, covering database setup, data cleaning, exploratory data analysis, and business-driven SQL queries. The findings from this project can help drive business decisions by understanding sales patterns, customer behavior, and product performance.
+<b><strong>Sarthak Sachdev</strong></b>
+- Website - [Sarthak Sachdev](https://itsmesarthak.netlify.app/)
+- LeetCode - [@sarthak_sachdev](https://leetcode.com/u/sarthak_sachdev/)
+- Twitter - [@sarthak_sach69](https://www.twitter.com/sarthak_sach69)
 
-## How to Use
+## Acknowledgments
 
-1. **Clone the Repository**: Clone this project repository from GitHub.
-2. **Set Up the Database**: Run the SQL scripts provided in the `database_setup.sql` file to create and populate the database.
-3. **Run the Queries**: Use the SQL queries provided in the `analysis_queries.sql` file to perform your analysis.
-4. **Explore and Modify**: Feel free to modify the queries to explore different aspects of the dataset or answer additional business questions.
+I feel like the solutions provided on the website and the continuous doubt solving by industry experts on discord for free is something that is unmatched by anyone else and need to be acknowledged for their efforts in improving me as a developer by suggesting the best practices in your respective tech stack.
 
-## Author - Rohan Khatri
+## Got feedback for me?
 
-This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
+I love receiving feedback! I am always looking to improve my code and take up new innovative ideas to work upon. So if you have anything you'd like to mention, please email 'hi' at saarsaach30[at]gmail[dot]com.
 
-Thank you for your support, and I look forward to connecting with you!
+If you liked this project make sure to spread the word and share it with all your friends.
 
+**Happy coding!** ☺️🚀
